@@ -84,6 +84,35 @@ class RelationshipMapRuntime:
             return "continue_list"
         return "normal"
 
+    def parse_semantic_query(self, text: str) -> Dict[str, Any]:
+        """把自然语言筛选/排序意图转成可执行状态，不要求用户记字段名。"""
+        s=text.strip()
+        cities=["长沙","重庆","上海","北京","深圳","成都","杭州","郑州","广州","西安","武汉"]
+        state={"page":1,"page_size":20,"query":"","city":"","sort":"updated_desc","semantic":{}}
+        city=next((c for c in cities if c in s), "")
+        if city:
+            state["city"]=city
+            state["semantic"]["filter"]="city"
+        if "姓" in s:
+            import re
+            m=re.search(r"姓([一-龥])", s)
+            if m:
+                state["query"]=m.group(1)
+                state["semantic"]["filter"]="surname"
+        if any(x in s for x in ["联系频次", "联系次数", "频次最高", "联系最多"]):
+            state["sort"]="contact_frequency_desc"
+            state["semantic"]["sort"]="contact_frequency"
+        elif any(x in s for x in ["关系最密切", "关系密切", "最熟", "最信任"]):
+            state["sort"]="relationship_strength_desc"
+            state["semantic"]["sort"]="relationship_strength"
+        elif any(x in s for x in ["关系最生疏", "比较生疏", "很久没联系", "最近联系最少"]):
+            state["sort"]="least_recent_contact"
+            state["semantic"]["sort"]="weak_or_cold_relationship"
+        elif any(x in s for x in ["最近需要跟进", "优先跟进", "先联系谁", "行动优先级"]):
+            state["sort"]="action_priority_desc"
+            state["semantic"]["sort"]="action_priority"
+        return {"intent":"semantic_filter_or_sort" if state["semantic"] else self.classify_intent(text), "state":state}
+
     def parse_open_request(self, text: str) -> Dict[str, Any]:
         """把打开请求转成列表状态。"""
         cities=["重庆","上海","北京","深圳","成都","杭州","郑州","广州","西安","武汉"]
@@ -98,6 +127,16 @@ class RelationshipMapRuntime:
             items=[c for c in items if c.city==city]
         if sort=="updated_desc":
             items.sort(key=lambda c: c.updated_at or "", reverse=True)
+        elif sort=="least_recent_contact":
+            items.sort(key=lambda c: c.last_interaction_at or "")
+        elif sort=="contact_frequency_desc":
+            items.sort(key=lambda c: len(c.timeline), reverse=True)
+        elif sort=="relationship_strength_desc":
+            rank={"核心盟友":5,"深度信任":4,"稳定熟人":3,"可联系":2,"弱连接":1}
+            items.sort(key=lambda c: rank.get(c.metrics.get("relationship_strength",""),0), reverse=True)
+        elif sort=="action_priority_desc":
+            rank={"A":4,"B":3,"C":2,"D":1}
+            items.sort(key=lambda c: rank.get(c.metrics.get("action_priority",""),0), reverse=True)
         total=len(items)
         start=(page-1)*page_size
         subset=items[start:start+page_size]
@@ -204,5 +243,6 @@ def generate_contacts(n:int=500, seed:int=42) -> List[Contact]:
             c.private={"phone":f"1380000{i%10000:04d}", "wechat":f"wx_secret_{i}", "address":f"测试地址{i}", "id_number":f"ID{i:018d}", "finance_note":f"财务备注{i}", "private_judgment":f"私密评价{i}"}
         contacts.append(c)
     return contacts
+
 
 

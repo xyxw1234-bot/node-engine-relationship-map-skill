@@ -39,6 +39,19 @@ for p in root.rglob('*'):
 for p in root.rglob('*'):
     if '.git' not in p.parts and ('__pycache__' in p.parts or p.suffix=='.pyc'):
         print('发现缓存污染', p); sys.exit(1)
+
+required_semantic_terms=['按联系频次排序','关系最密切','关系最生疏','长沙认识的朋友','打标签','安装完成后，不要只说安装成功']
+for rel in ['SKILL.md','人脉地图/SKILL.md','relationship-map/SKILL.md']:
+    txt=(root/rel).read_text(encoding='utf-8')
+    for term in required_semantic_terms[:5]:
+        if term not in txt:
+            print('缺少语义能力示例', rel, term); sys.exit(1)
+for rel in ['README.md','INSTALL.md']:
+    txt=(root/rel).read_text(encoding='utf-8')
+    if required_semantic_terms[-1] not in txt:
+        print('缺少安装后能力展示要求', rel); sys.exit(1)
+
 print('校验通过：v2.5 人脉管理 Skill，安装体验和历史污染扫描通过。')
+
 
 

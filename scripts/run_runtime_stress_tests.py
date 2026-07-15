@@ -17,6 +17,11 @@ def run(contacts:int=500, rounds:int=2000, extended:bool=False):
     confirm="我是不是可以打开人脉地图？"
     assert_true(rt.classify_intent(confirm)=='confirm','疑问句应先确认')
     assert_true(rt.classify_intent('好，继续展现')=='continue_list','自然语言继续展现未识别')
+    assert_true(rt.parse_semantic_query('按照我的联系频次排序')['state']['sort']=='contact_frequency_desc','联系频次排序未识别')
+    assert_true(rt.parse_semantic_query('哪些人和我关系最密切')['state']['sort']=='relationship_strength_desc','关系密切排序未识别')
+    assert_true(rt.parse_semantic_query('哪些人已经比较生疏')['state']['sort']=='least_recent_contact','生疏关系排序未识别')
+    assert_true(rt.parse_semantic_query('我在长沙认识几个朋友，你给我拉出来')['state']['city']=='长沙','地域筛选未识别')
+    assert_true(rt.parse_semantic_query('给我找出姓张的人')['state']['query']=='张','姓氏筛选未识别')
     lv=rt.list_view(page=1,page_size=20)
     assert_true(lv['total']==contacts, '总数不对')
     assert_true(len(lv['items'])<=20, '一级列表未分组展现')
@@ -59,5 +64,6 @@ def run(contacts:int=500, rounds:int=2000, extended:bool=False):
 if __name__=='__main__':
     ap=argparse.ArgumentParser(); ap.add_argument('--contacts',type=int,default=500); ap.add_argument('--rounds',type=int,default=2000); ap.add_argument('--extended',action='store_true')
     a=ap.parse_args(); print(json.dumps(run(a.contacts,a.rounds,a.extended),ensure_ascii=False,indent=2))
+
 
 

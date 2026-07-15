@@ -38,3 +38,4 @@ https://raw.githubusercontent.com/xyxw1234-bot/relationship-map-skill/main/人�
 6. 文档明确更新不得覆盖 $HERMES_HOME/data/relationship-map/ 和 extensions/。
 
 
+

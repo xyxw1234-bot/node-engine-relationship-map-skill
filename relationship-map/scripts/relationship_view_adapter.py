@@ -67,3 +67,4 @@ class RelationshipViewAdapter:
         return {'type':'relationship_map_detail_view','contact_id':contact_id,'return_state':return_state,'text':'\n'.join(lines)}
 
 
+

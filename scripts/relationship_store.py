@@ -65,3 +65,4 @@ class RelationshipStore:
         self.conn.execute('UPDATE audit_log SET confirmed=1 WHERE id=?',(proposal['id'],)); self.conn.commit()
 
 
+

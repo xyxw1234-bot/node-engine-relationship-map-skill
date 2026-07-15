@@ -19,6 +19,9 @@ $HERMES_HOME/data/relationship-map/extensions/
 - 历史复杂方案筛选
 - 话术风格
 - 复盘问题
+- 语义排序规则
+- 自定义标签体系
+- 自定义关系强度和联系频次口径
 
 不可突破的底线
 
@@ -27,5 +30,6 @@ $HERMES_HOME/data/relationship-map/extensions/
 - 用户数据不能被 Skill 更新覆盖。
 - 一级列表不能泄露敏感信息。
 - 推断不能写成事实。
+
 
 
