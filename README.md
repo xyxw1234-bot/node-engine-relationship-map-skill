@@ -35,3 +35,17 @@ hermes skills install https://raw.githubusercontent.com/<账号>/<仓库>/main/r
 ## 自适应关系维度
 
 系统内置投资人、政府/协会、学校客户、渠道、专家、供应链等角色预设，但不会锁死。AI 会根据用户输入自动建议相应维度，用户可以确认、改名、删除或设为自己的默认规则。
+
+
+## 飞书原生卡片配套层
+
+如果用户没有安装飞书流式卡片插件，人脉地图可使用飞书原生 interactive card 兜底展示：空状态、列表、详情、确认、示例、二级页面。复杂模块不平铺，统一进入二级页面。
+
+
+## 只发链接安装
+
+给用户转发时，优先只发这条 raw 链接：
+
+https://raw.githubusercontent.com/xyxw1234-bot/node-engine-relationship-map-skill/main/relationship-map/SKILL.md
+
+用户把这条链接发给自己的节点引擎 / Hermes 后，系统应把它识别为 Skill 安装或更新请求。若环境出于安全策略需要确认，节点引擎会先做极简确认。

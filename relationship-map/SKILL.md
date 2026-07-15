@@ -1,7 +1,7 @@
 ---
 name: relationship-map
 description: Use when helping founders, business owners, and executives manage a dynamic relationship map through conversation, including opening a compact visual people list, drilling into one contact detail inside the same card, returning to the list, capturing relationship updates, and protecting user data during skill updates.
-version: 1.8.0
+version: 2.0
 author: Node Engine
 license: MIT
 metadata:
@@ -426,6 +426,98 @@ python3 relationship-map/scripts/run_runtime_stress_tests.py --contacts 5000 --r
 
 
 
+
+
+
+
+## Link-only Install and Update Intent
+
+当用户在 Hermes / 节点引擎中只发送本 Skill 的 GitHub 链接，尤其是 raw `SKILL.md` 链接时，应优先理解为：用户希望安装或更新“人脉地图”能力。
+
+推荐识别规则：
+
+- 如果链接指向 `relationship-map/SKILL.md`：执行安装或更新检查。
+- 如果本地未安装：安装该 Skill。
+- 如果本地已安装：检查远端版本，提示或执行更新。
+- 如果当前平台需要确认安装外部 Skill：用极简确认，不输出长说明。
+
+用户侧转发时可只发链接，不需要再附一大段安装说明。
+
+## Feishu Native Card Companion
+
+人脉地图必须具备飞书原生卡片兜底能力。不能假设所有用户都安装了飞书流式卡片插件；没有流式卡片时，必须用飞书 interactive card〔交互卡片〕把界面规整起来。
+
+### 渲染优先级
+
+1. 已安装流式卡片插件：优先交给流式卡片插件渲染。
+2. 未安装流式卡片插件但在飞书环境：使用飞书原生 interactive card。
+3. 非飞书或卡片能力不可用：退化为极简纯文本。
+
+### 必备卡片
+
+- 空状态卡片：首次打开人脉地图，不刷说明书，只给一句示例和按钮。
+- 列表卡片：姓名 + 两行摘要 + 查看详情 + 分页。
+- 详情卡片：联系人完整资料、动态维度、时间线、返回。
+- 写入确认卡片：确认保存 / 修改 / 放弃。
+- 示例引导卡片：出差、投资人、校长客户、转介绍等示例。
+- 二级页面卡片：任何复杂模块都必须进入二级页面，不在一级卡片平铺。
+
+### 二级页面原则
+
+类似“暗影女王”这类复杂能力、角色模块、场景剧本、关系指标解释、投资人分析、政府/协会关系分析等，都不能平铺成一大段文档。必须采用：
+
+```text
+一级卡片：只显示入口和摘要
+点击按钮：进入二级页面
+二级页面：展示完整模块
+返回按钮：回到上一级
+```
+
+这样才能在飞书手机端形成真正产品体验，而不是散乱文档。
+
+### Skill 与插件分工
+
+- Skill：定义人脉地图的理解、记录、指标、场景和安全规则。
+- Feishu Card Companion：把 Skill 输出渲染成飞书原生卡片，并处理按钮 action value〔按钮回调值〕。
+
+该 companion 仍跑在 Hermes 内部，不单独部署服务器。
+
+## Feishu-friendly Output Policy
+
+当人脉地图运行在飞书 / Lark 中时，输出必须优先照顾手机端可读性。
+
+### 核心要求
+
+1. 不在聊天区直接贴完整 `SKILL.md`、长篇 Markdown、`---` 分割线、`##` 标题、`**` 加粗标记或表格源码。
+2. 安装完成、打开人脉地图、查看详情、更新确认等场景，默认只给半屏内摘要。
+3. 如果当前 Hermes/飞书环境支持 interactive card〔交互卡片〕或 streaming card〔流式卡片〕，优先用卡片：标题 + 3—5 条摘要 + 按钮。
+4. 如果当前环境不支持卡片，退化为极简纯文本，不输出裸 Markdown 标记。
+5. 完整说明、长文档、操作手册应放到 GitHub README 或 HTML/文档链接中，不直接刷屏。
+
+### 安装成功回复建议
+
+不要把完整技能内容贴出来。只回复：
+
+```text
+人脉地图已安装。
+可试：打开我的人脉地图。
+也可说：张三是我重庆的人脉，帮我写个联系话术。
+```
+
+### 飞书卡片形态建议
+
+卡片标题：人脉地图
+卡片摘要：
+- 已安装 / 已打开 / 已更新
+- 当前可做什么
+- 下一步建议
+
+按钮：
+- 打开人脉地图
+- 查看使用说明
+- 新增联系人
+
+注意：Skill 本身只能声明输出策略；是否真的发送飞书交互卡片，取决于当前 Hermes 飞书网关是否启用了卡片/流式卡片能力。
 
 ## Adaptive Relationship Intelligence
 
