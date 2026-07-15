@@ -246,3 +246,4 @@ def generate_contacts(n:int=500, seed:int=42) -> List[Contact]:
 
 
 
+
