@@ -105,7 +105,7 @@ class RelationshipMapRuntime:
         elif any(x in s for x in ["关系最密切", "关系密切", "最熟", "最信任"]):
             state["sort"]="relationship_strength_desc"
             state["semantic"]["sort"]="relationship_strength"
-        elif any(x in s for x in ["关系最生疏", "比较生疏", "很久没联系", "最近联系最少"]):
+        elif any(x in s for x in ["关系最生疏", "比较生疏", "变生疏", "很久没联系", "最近联系最少"]):
             state["sort"]="least_recent_contact"
             state["semantic"]["sort"]="weak_or_cold_relationship"
         elif any(x in s for x in ["最近需要跟进", "优先跟进", "先联系谁", "行动优先级"]):

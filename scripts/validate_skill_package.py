@@ -40,7 +40,7 @@ for p in root.rglob('*'):
     if '.git' not in p.parts and ('__pycache__' in p.parts or p.suffix=='.pyc'):
         print('发现缓存污染', p); sys.exit(1)
 
-required_semantic_terms=['按联系频次排序','关系最密切','关系最生疏','长沙认识的朋友','打标签','安装完成后，不要只说安装成功','资料解析','会前准备','会后沉淀','资源路径','关键人维护','可调动度']
+required_semantic_terms=['按联系频次排序','关系最密切','变生疏','长沙认识的朋友','打标签','安装完成后，不要只说安装成功','资料解析','会前准备','会后沉淀','资源路径','关键人维护','可调动度']
 for rel in ['SKILL.md','人脉地图/SKILL.md','relationship-map/SKILL.md']:
     txt=(root/rel).read_text(encoding='utf-8')
     for term in required_semantic_terms[:11]:
