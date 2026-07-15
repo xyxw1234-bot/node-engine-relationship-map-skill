@@ -30,3 +30,15 @@ https://raw.githubusercontent.com/xyxw1234-bot/节点引擎-人脉地图/main/SK
 ## 用户自定义扩展
 
 用户安装后可以按自己的业务扩展字段、模块、指标和场景。推荐把自定义内容放到 `$HERMES_HOME/data/relationship-map/extensions/`，避免官方 Skill 更新时覆盖用户改动。
+
+
+## v2.1 重要修复
+
+v2.1 不再把“卡片样式文本”当作飞书卡片能力。仓库新增 `plugins/relationship-map-feishu-card` companion 插件：
+
+- 用户在飞书里说“打开人脉地图”时，插件在模型回复前拦截；
+- 直接发送飞书原生 `interactive` 交互卡片；
+- “查看详情 / 返回列表 / 新增联系人 / 搜索筛选”是真按钮，不是 `[查看详情]` 文字；
+- 如果插件没有安装或启用，系统不得伪装按钮，只能极简提示未启用卡片插件。
+
+验收口径：必须看到飞书消息类型为 `interactive`，按钮可点击并能进入详情页/返回列表。

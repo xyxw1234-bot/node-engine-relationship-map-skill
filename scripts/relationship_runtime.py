@@ -108,7 +108,7 @@ class RelationshipMapRuntime:
                 line1 += "｜" + "｜".join(shown_metrics[:2])
             recent = f"最近互动：{c.last_interaction_at[:10]} {c.timeline[-1].summary[:22]}" if c.last_interaction_at and c.timeline else "最近互动：资料待补充"
             nxt = f"下一步：{c.next_touch_at[:10]} 可轻触达" if c.next_touch_at else "下一步：待补充"
-            text="\n".join([line1, recent, nxt, "[查看详情]"])
+            text="\n".join([line1, recent, nxt, "按钮：查看详情（需由飞书 interactive card 渲染为真按钮）"])
             # 一级列表敏感信息检测
             leaked=[]
             for key,val in c.private.items():

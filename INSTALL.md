@@ -20,3 +20,12 @@ https://raw.githubusercontent.com/xyxw1234-bot/节点引擎-人脉地图/main/SK
 ```bash
 hermes skills install https://raw.githubusercontent.com/xyxw1234-bot/节点引擎-人脉地图/main/SKILL.md
 ```
+
+
+## 飞书原生卡片插件要求
+
+只安装 Skill 文档只能让模型知道规则，不能保证飞书里出现真正可点击按钮。v2.1 必须同时安装并启用仓库内 companion 插件：
+
+`plugins/relationship-map-feishu-card`
+
+启用后，“打开人脉地图”会由插件直接发送飞书原生 `interactive` 卡片；没有插件时不得输出伪按钮。

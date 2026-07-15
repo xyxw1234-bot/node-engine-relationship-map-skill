@@ -23,6 +23,10 @@
 2. 飞书原生 interactive card
 3. 极简纯文本
 
-## 边界
+## v2.1 执行边界
+
+该 companion 不是文档建议，而是必须安装/启用的 Hermes 插件：`plugins/relationship-map-feishu-card`。
+
+验收必须看真实飞书消息类型：`interactive`。如果只是灰底文本、`[查看详情]` 字样、`新增联系人｜搜索` 字样，判定为失败。
 
 该 companion 只是 Hermes 内部渲染层，不单独部署服务器。

@@ -1,5 +1,16 @@
 # Changelog
 
+## v2.1
+
+- 修复 v2.0 的关键缺陷：禁止用 `[查看详情]` 等文本伪装飞书交互按钮。
+- 新增系统级 companion 插件 `plugins/relationship-map-feishu-card`，通过 `pre_gateway_dispatch` 在模型回复前接管“打开人脉地图”。
+- 插件直接发送飞书原生 `msg_type=interactive` 卡片；没有流式卡片插件时也能显示真实按钮。
+- 新增 `/card` 回调处理：点击“查看详情 / 返回列表 / 新增联系人 / 搜索筛选”后继续发送真实交互卡片。
+- 新增 `scripts/test_relationship_map_feishu_plugin.py`，验证消息类型为 interactive、存在 button、没有 `[查看详情]` 伪按钮。
+- 明确未启用 companion 插件时不得声称已具备真实飞书卡片能力。
+
+正式链接：https://raw.githubusercontent.com/xyxw1234-bot/node-engine-relationship-map-skill/main/节点引擎-人脉地图/SKILL.md
+
 ## v2.0 中文短链结构
 
 - 将正式安装入口调整为：https://raw.githubusercontent.com/xyxw1234-bot/节点引擎-人脉地图/main/SKILL.md
