@@ -79,15 +79,18 @@ class RelationshipMapRuntime:
             return "open_map"
         if "有哪些人" in s and ("库" in s or "人脉" in s or "联系人" in s):
             return "open_map"
+        continuation=["继续", "接着", "后面的", "还有吗", "继续展现", "再给我看看"]
+        if any(x in s for x in continuation):
+            return "continue_list"
         return "normal"
 
     def parse_open_request(self, text: str) -> Dict[str, Any]:
         """把打开请求转成列表状态。"""
         cities=["重庆","上海","北京","深圳","成都","杭州","郑州","广州","西安","武汉"]
         city=next((c for c in cities if c in text), "")
-        return {"intent": self.classify_intent(text), "state": {"page":1,"page_size":15,"query":"","city":city,"sort":"updated_desc"}}
+        return {"intent": self.classify_intent(text), "state": {"page":1,"page_size":20,"query":"","city":city,"sort":"updated_desc"}}
 
-    def list_view(self, page:int=1, page_size:int=15, query:str="", city:str="", sort:str="updated_desc") -> Dict:
+    def list_view(self, page:int=1, page_size:int=20, query:str="", city:str="", sort:str="updated_desc") -> Dict:
         items=[c for c in self.contacts.values() if not c.deleted]
         if query:
             items=[c for c in items if query in c.name or query in c.organization or query in ''.join(c.tags)]
@@ -201,4 +204,5 @@ def generate_contacts(n:int=500, seed:int=42) -> List[Contact]:
             c.private={"phone":f"1380000{i%10000:04d}", "wechat":f"wx_secret_{i}", "address":f"测试地址{i}", "id_number":f"ID{i:018d}", "finance_note":f"财务备注{i}", "private_judgment":f"私密评价{i}"}
         contacts.append(c)
     return contacts
+
 

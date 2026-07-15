@@ -11,7 +11,7 @@ class RelationshipViewAdapter:
         self.store = store
 
     def list_text(self, state: Dict[str, Any]) -> Dict[str, Any]:
-        data = self.store.list_contacts(page=state.get("page",1), page_size=state.get("page_size",15), query=state.get("query",""), city=state.get("city",""), sort=state.get("sort","updated_desc"))
+        data = self.store.list_contacts(page=state.get("page",1), page_size=state.get("page_size",20), query=state.get("query",""), city=state.get("city",""), sort=state.get("sort","updated_desc"))
         rows=[]
         for idx, r in enumerate(data['rows'], start=1+(data['page']-1)*data['page_size']):
             tags=json.loads(r['tags'] or '[]')
@@ -29,13 +29,13 @@ class RelationshipViewAdapter:
             line=f"{idx}. {r['name']}｜{position}｜状态：{status}｜最近：{recent}｜下一步：{next_touch}"
             leaked=[k for k in SENSITIVE_KEYS if private.get(k) and str(private[k]) in line]
             rows.append({'contact_id':r['id'],'name':r['name'],'line':line,'leaked':leaked})
-        summary=f"人脉地图共有 {data['total']} 人。当前显示第 {data['page']} 页，每页 {data['page_size']} 人。"
+        summary=f"人脉地图共有 {data['total']} 人。先为你展现第 {1+(data['page']-1)*data['page_size']} 到 {min(data['page']*data['page_size'], data['total'])} 人的基本信息。"
         if data['has_next']:
-            summary += ' 还可以继续说：下一页。'
+            summary += ' 如果你还想继续看后面的人，我可以继续为你展现。'
         if not rows:
             body='你的人脉库目前没有可显示的联系人。可以直接说：帮我记录某某，他是哪里人，主要做什么。'
         else:
-            body='\n'.join([summary, *[r['line'] for r in rows], '想看某个人的详情，可以直接说他的姓名，或说：看第几个人。'])
+            body='\n'.join([summary, *[r['line'] for r in rows], '目前展现的是这些人的基本信息。如果想了解详情，可以直接告诉我想具体了解哪个人。'])
         return {'type':'relationship_map_list_view','state':state,'total':data['total'],'has_next':data['has_next'],'rows':rows,'text':body}
 
     def detail_text(self, contact_id: str, return_state: Dict[str, Any]) -> Dict[str, Any]:
@@ -65,4 +65,5 @@ class RelationshipViewAdapter:
                 lines.append(f"{e.get('timestamp','')}｜{e.get('summary','')}")
         lines.append('如果要继续，可以说：更新这个人、生成联系话术、回到人脉列表。')
         return {'type':'relationship_map_detail_view','contact_id':contact_id,'return_state':return_state,'text':'\n'.join(lines)}
+
 

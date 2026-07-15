@@ -16,10 +16,11 @@ def run(contacts:int=500, rounds:int=2000, extended:bool=False):
         assert_true(rt.classify_intent(s)!='open_map', f'不应打开却打开: {s}')
     confirm="我是不是可以打开人脉地图？"
     assert_true(rt.classify_intent(confirm)=='confirm','疑问句应先确认')
-    lv=rt.list_view(page=1,page_size=15)
+    assert_true(rt.classify_intent('好，继续展现')=='continue_list','自然语言继续展现未识别')
+    lv=rt.list_view(page=1,page_size=20)
     assert_true(lv['total']==contacts, '总数不对')
-    assert_true(len(lv['items'])<=15, '一级列表未分页')
-    assert_true(lv['has_next'] is (contacts>15), '下一页状态错误')
+    assert_true(len(lv['items'])<=20, '一级列表未分组展现')
+    assert_true(lv['has_next'] is (contacts>20), '继续展现状态错误')
     for item in lv['items']:
         assert_true(not item['leaked'], f"一级列表泄露敏感信息: {item}")
         assert_true(item['text'].count('\n')<=2, '一级摘要超过三行')
@@ -42,9 +43,9 @@ def run(contacts:int=500, rounds:int=2000, extended:bool=False):
     assert_true(after==before+1, '确认删除未生效')
     for i in range(rounds):
         city='重庆' if i%3==0 else ''
-        page=(i%max(1,contacts//15))+1
-        lv=rt.list_view(page=page,page_size=15,city=city)
-        assert_true(len(lv['items'])<=15, '压力测试分页失效')
+        page=(i%max(1,contacts//20))+1
+        lv=rt.list_view(page=page,page_size=20,city=city)
+        assert_true(len(lv['items'])<=20, '压力测试分组展现失效')
         for item in lv['items']:
             assert_true(not item['leaked'], '压力测试一级列表泄密')
         if lv['items']:
@@ -58,4 +59,5 @@ def run(contacts:int=500, rounds:int=2000, extended:bool=False):
 if __name__=='__main__':
     ap=argparse.ArgumentParser(); ap.add_argument('--contacts',type=int,default=500); ap.add_argument('--rounds',type=int,default=2000); ap.add_argument('--extended',action='store_true')
     a=ap.parse_args(); print(json.dumps(run(a.contacts,a.rounds,a.extended),ensure_ascii=False,indent=2))
+
 

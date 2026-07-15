@@ -8,3 +8,4 @@ v2.5
 正式安装入口改为：/人脉地图/SKILL.md。
 新增 run_v25_acceptance.py 和 v2.5 严格门禁。
 
+
