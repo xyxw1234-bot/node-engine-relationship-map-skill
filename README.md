@@ -32,9 +32,9 @@ https://raw.githubusercontent.com/xyxw1234-bot/节点引擎-人脉地图/main/SK
 用户安装后可以按自己的业务扩展字段、模块、指标和场景。推荐把自定义内容放到 `$HERMES_HOME/data/relationship-map/extensions/`，避免官方 Skill 更新时覆盖用户改动。
 
 
-## v2.1 重要修复
+## v2.2 重要修复
 
-v2.1 不再把“卡片样式文本”当作飞书卡片能力。仓库新增 `plugins/relationship-map-feishu-card` companion 插件：
+v2.2 不再把“卡片样式文本”当作飞书卡片能力。仓库新增 `plugins/relationship-map-feishu-card` companion 插件：
 
 - 用户在飞书里说“打开人脉地图”时，插件在模型回复前拦截；
 - 直接发送飞书原生 `interactive` 交互卡片；
@@ -42,3 +42,27 @@ v2.1 不再把“卡片样式文本”当作飞书卡片能力。仓库新增 `p
 - 如果插件没有安装或启用，系统不得伪装按钮，只能极简提示未启用卡片插件。
 
 验收口径：必须看到飞书消息类型为 `interactive`，按钮可点击并能进入详情页/返回列表。
+
+
+## v2.2 安装链路修复
+
+v2.2 明确：只更新 SKILL.md 不够，必须安装并启用运行时插件。
+
+推荐命令：
+
+```bash
+hermes plugins install xyxw1234-bot/node-engine-relationship-map-skill/plugins/relationship-map-feishu-card --force --enable
+```
+
+如果老版本 Hermes 不支持该命令，使用：
+
+```bash
+python3 scripts/install_relationship_map_feishu_card.py
+```
+
+完成后必须重启 gateway / 节点引擎。未启用插件前，严禁输出伪按钮。
+
+
+## v2.2 Strict LOP Gate
+
+发布前必须运行 `python3 scripts/run_v22_strict_lop.py`。该脚本是最高强度门禁，会检查文件同步、旧版本污染、伪按钮、插件安装说明、隔离环境 interactive 卡片验收和全部关键测试。

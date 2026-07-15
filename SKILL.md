@@ -1,7 +1,7 @@
 ---
 name: relationship-map
 description: Use when helping founders, business owners, and executives manage a dynamic relationship map through conversation, including opening a compact visual people list, drilling into one contact detail inside the same card, returning to the list, capturing relationship updates, and protecting user data during skill updates.
-version: 2.1
+version: 2.2
 author: Node Engine
 license: MIT
 metadata:
@@ -702,3 +702,30 @@ v2.1 包内新增：
 - `scripts/test_relationship_map_feishu_plugin.py`
 
 这三个文件用于系统级接管飞书原生卡片兜底能力。
+
+
+## v2.2 Hard Requirement: Install Runtime Plugin Before Opening
+
+v2.2 修正 v2.1 的安装链路缺陷：只更新 `SKILL.md` 不等于安装/启用飞书原生卡片插件。
+
+硬规则：
+
+1. 当用户发链接更新到 v2.2 后，必须先安装并启用运行时插件 `relationship-map-feishu-card`，不能只更新 Skill 文档。
+2. 插件安装命令为：`hermes plugins install xyxw1234-bot/node-engine-relationship-map-skill/plugins/relationship-map-feishu-card --force --enable`。
+3. 如果当前 Hermes 版本不支持上述命令，使用包内脚本：`python3 scripts/install_relationship_map_feishu_card.py`。
+4. 插件启用后必须重启 gateway 或开启新会话；否则 `pre_gateway_dispatch` 不会生效。
+5. 未验证插件已启用前，不得继续打开人脉地图，不得输出 `[查看详情]`、`新增联系人｜搜索` 或任何伪按钮。
+6. 如果插件未启用，只允许回复这一句：`人脉地图 v2.2 已更新，但飞书原生卡片插件尚未启用；请先完成插件安装并重启节点引擎。`
+7. 真正通过的验收标准：飞书发送的消息类型是 `interactive`，按钮 value 含 `relationship_map_action`，点击“查看详情”可触发 `/card` 回调。
+
+这条规则优先级高于所有“打开人脉地图”的文本展示规则。
+
+
+### v2.2 Full Acceptance Test
+
+发布或交付前必须运行：`python3 scripts/run_v22_full_acceptance.py`。该测试会创建隔离 Hermes 环境，安装并启用插件，模拟飞书打开人脉地图和点击查看详情，验证消息类型为 `interactive`，并全局扫描旧版本和伪按钮。
+
+
+## v2.2 Strict LOP Gate
+
+发布前必须运行 `python3 scripts/run_v22_strict_lop.py`。该脚本是最高强度门禁，会检查文件同步、旧版本污染、伪按钮、插件安装说明、隔离环境 interactive 卡片验收和全部关键测试。

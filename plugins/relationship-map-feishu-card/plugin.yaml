@@ -1,5 +1,5 @@
 name: relationship-map-feishu-card
-version: 2.1.0
+version: 2.2.0
 description: Feishu native interactive card companion for Node Engine Relationship Map.
 author: Node Engine
 provides_hooks:

@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.2
+
+- 修复 v2.1 的安装链路缺陷：用户只更新 SKILL.md 时，插件不会自动进入 Hermes 运行时。
+- 新增 `scripts/install_relationship_map_feishu_card.py`，用于安装/启用 `relationship-map-feishu-card` 插件。
+- 新增硬规则：插件未启用前，不得继续打开人脉地图，不得输出任何伪按钮。
+- 新增 `scripts/test_v22_package_contract.py`，验证 v2.2 包含安装器、启用要求和重启要求。
+- 明确验收标准：飞书消息必须为 `interactive`，按钮 value 必须包含 `relationship_map_action`。
+
+
 ## v2.1
 
 - 修复 v2.0 的关键缺陷：禁止用 `[查看详情]` 等文本伪装飞书交互按钮。
