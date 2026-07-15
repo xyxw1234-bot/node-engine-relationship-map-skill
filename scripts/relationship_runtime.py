@@ -65,7 +65,7 @@ class RelationshipMapRuntime:
         疑问、请求许可、上下文不完整时默认 confirm，不直接打开。
         """
         s = text.strip()
-        negative = ["不要打开", "别打开", "别弹", "不要弹", "错误打开", "误打开", "触发机制", "不对", "bug", "比如", "假设", "设计", "开发", "产品能力"]
+        negative = ["不要打开", "别打开", "不要进入", "别进入", "错误打开", "错误进入", "误打开", "误进入", "触发机制", "不对", "bug", "比如", "假设", "设计", "开发", "产品能力"]
         if any(x in s for x in negative):
             return "normal"
         objects = ["人脉地图", "人脉库", "联系人库"]
@@ -98,7 +98,7 @@ class RelationshipMapRuntime:
         total=len(items)
         start=(page-1)*page_size
         subset=items[start:start+page_size]
-        cards=[]
+        items=[]
         for c in subset:
             line1=f"{c.name}｜{c.city or c.organization or '信息待补充'}｜{'/'.join(c.tags[:2]) or c.role or '待补充'}"
             shown_metrics=[]
@@ -108,14 +108,14 @@ class RelationshipMapRuntime:
                 line1 += "｜" + "｜".join(shown_metrics[:2])
             recent = f"最近互动：{c.last_interaction_at[:10]} {c.timeline[-1].summary[:22]}" if c.last_interaction_at and c.timeline else "最近互动：资料待补充"
             nxt = f"下一步：{c.next_touch_at[:10]} 可轻触达" if c.next_touch_at else "下一步：待补充"
-            text="\n".join([line1, recent, nxt, "按钮：查看详情（需由飞书 interactive card 渲染为真按钮）"])
+            text="\n".join([line1, recent, nxt])
             # 一级列表敏感信息检测
             leaked=[]
             for key,val in c.private.items():
                 if val and val in text:
                     leaked.append(key)
-            cards.append({"id":c.id,"text":text,"leaked":leaked})
-        return {"view":"list","page":page,"page_size":page_size,"query":query,"city":city,"sort":sort,"total":total,"cards":cards,"has_next":start+page_size<total}
+            items.append({"id":c.id,"text":text,"leaked":leaked})
+        return {"view":"list","page":page,"page_size":page_size,"query":query,"city":city,"sort":sort,"total":total,"items":items,"has_next":start+page_size<total}
 
     def detail_view(self, contact_id:str, return_state:Dict) -> Dict:
         c=self.contacts[contact_id]
@@ -136,12 +136,12 @@ class RelationshipMapRuntime:
             "last_interaction_at":c.last_interaction_at,
             "next_touch_at":c.next_touch_at,
             "timeline":[e.__dict__ for e in c.timeline],
-            "buttons":["返回人脉地图","更新此人信息","生成联系话术","加入机会地图"]
+            "next_actions":["回到人脉列表","更新此人信息","生成联系话术","加入机会地图"]
         }
         return detail
 
     def return_to_list(self, detail:Dict) -> Dict:
-        return self.list_view(**detail["return_state"])
+        s=detail["return_state"]; return self.list_view(page=s.get("page",1), page_size=s.get("page_size",15), query=s.get("query",""), city=s.get("city",""), sort=s.get("sort","updated_desc"))
 
     def propose_update(self, contact_id:str, field:str, value:Any, sensitive:bool=False, operation:str="update") -> Dict:
         """所有写操作先 proposal，不直接写入。"""
