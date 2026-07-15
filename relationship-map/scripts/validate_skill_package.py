@@ -5,7 +5,7 @@ root=Path(sys.argv[1] if len(sys.argv)>1 else '.').resolve()
 required=[
  'SKILL.md','节点引擎-人脉地图/SKILL.md','references/link-only-install.md','references/feishu-native-card-companion.md',
  'plugins/relationship-map-feishu-card/plugin.yaml','plugins/relationship-map-feishu-card/__init__.py',
- 'scripts/test_relationship_map_feishu_plugin.py','scripts/install_relationship_map_feishu_card.py','scripts/test_v22_package_contract.py','scripts/run_v22_full_acceptance.py','scripts/run_v22_strict_lop.py',
+ 'scripts/test_relationship_map_feishu_plugin.py','scripts/install_relationship_map_feishu_card.py','scripts/test_v22_package_contract.py','scripts/run_v22_full_acceptance.py','scripts/create_github_release_v22.py','scripts/run_v22_strict_lop.py',
  'relationship-map/SKILL.md','relationship-map/references/card-list-ux.md','relationship-map/references/semantic-trigger-gate.md','relationship-map/references/data-safety.md','relationship-map/references/hermes-native-runtime.md','relationship-map/references/user-customization.md','relationship-map/references/adaptive-dimensions.md','relationship-map/references/feishu-output-policy.md','relationship-map/references/feishu-native-card-companion.md','relationship-map/scripts/feishu_card_renderer.py','relationship-map/scripts/test_feishu_card_renderer.py','relationship-map/templates/adaptive-dimensions.md','relationship-map/references/trigger-test-cases.md','relationship-map/templates/contact-list-item.md','relationship-map/templates/contact-detail-view.md','relationship-map/templates/relationship-metrics.md','relationship-map/templates/contact-timeline.md','relationship-map/templates/contact.schema.json','relationship-map/templates/timeline-event.schema.json','relationship-map/examples/open-map-demo.md','relationship-map/scripts/relationship_runtime.py','relationship-map/scripts/run_runtime_stress_tests.py','relationship-map/scripts/relationship_store.py','relationship-map/scripts/relationship_card_adapter.py','relationship-map/scripts/run_storage_card_e2e_tests.py','README.md','INSTALL.md','CHANGELOG.md']
 for rel in required:
     if not (root/rel).exists():
@@ -42,7 +42,7 @@ required_phrases = [
 for phrase in required_phrases:
     if phrase not in all_text:
         print('缺少发布级安全短语:', phrase); sys.exit(1)
-for script_phrase in ['classify_intent', 'list_view', 'detail_view', 'return_to_list', 'propose_update', 'parse_open_request', 'metric_evidence', 'RelationshipStore', 'RelationshipCardAdapter', 'Hermes 原生', '不单独部署服务器', '$HERMES_HOME/data/relationship-map', 'extensions/', 'Adaptive Relationship Intelligence', 'infer_adaptive_dimensions', 'Feishu-friendly Output Policy', 'Feishu Native Card Companion', 'Link-only Install and Update Intent', 'pre_gateway_dispatch', 'relationship_map_action', 'restart_required', 'version: 2.2.0']:
+for script_phrase in ['classify_intent', 'list_view', 'detail_view', 'return_to_list', 'propose_update', 'parse_open_request', 'metric_evidence', 'RelationshipStore', 'RelationshipCardAdapter', 'Hermes 原生', '不单独部署服务器', '$HERMES_HOME/data/relationship-map', 'extensions/', 'Adaptive Relationship Intelligence', 'infer_adaptive_dimensions', 'Feishu-friendly Output Policy', 'Feishu Native Card Companion', 'Link-only Install and Update Intent', 'pre_gateway_dispatch', 'relationship_map_action', 'restart_required', 'version: 2.2.0', 'GitHub Release 页面门禁']:
     if script_phrase not in all_text:
         print('缺少运行层能力:', script_phrase); sys.exit(1)
 # No positive pseudo-button examples. Mentions are allowed only when explicitly framed as forbidden/failure.
