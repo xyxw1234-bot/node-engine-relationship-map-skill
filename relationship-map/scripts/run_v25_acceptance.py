@@ -2,9 +2,9 @@
 from __future__ import annotations
 import json,re,subprocess,sys
 from pathlib import Path
-ROOT=Path(__file__).resolve().parents[1]
-FORBIDDEN_PATTERNS=[r'relationship-map-feishu-'+'card', r'pre_'+'gateway_dispatch', r'relationship_map_'+'action', r'msg_type=inter'+'active', r'inter'+'active ca'+'rd', r'飞书原生历史复杂路线', r'\\['+'看某个人详情'+r'\\]', r'\*\*', r'##', r'```']
-ALLOW_FILES={'CHANGELOG.md','scripts/run_v24_acceptance.py','scripts/validate_skill_package.py','relationship-map/scripts/validate_skill_package.py','scripts/run_storage_view_e2e_tests.py','relationship-map/scripts/run_storage_view_e2e_tests.py'}
+ROOT=Path(__file__).resolve().parents[2]
+FORBIDDEN_PATTERNS=[r'节点'+'引擎', r'Node '+'Engine', r'node-'+'engine', r'relationship-map-feishu-'+'card', r'pre_'+'gateway_dispatch', r'relationship_map_'+'action', r'msg_type=inter'+'active', r'inter'+'active ca'+'rd', r'飞书原生历史'+'复杂路线', r'\['+'看某个人详情'+r'\]', r'找某某智能体'+'帮你安装', r'帮我安装这个 '+'skill', r'装到某个'+'平台', r'```']
+ALLOW_FILES={'CHANGELOG.md','scripts/run_v25_acceptance.py','scripts/validate_skill_package.py','relationship-map/scripts/validate_skill_package.py','scripts/run_storage_view_e2e_tests.py','relationship-map/scripts/run_storage_view_e2e_tests.py','relationship-map/scripts/run_v25_acceptance.py'}
 TEXT_EXT={'.md','.py','.json','.yaml','.txt'}
 
 def fail(msg):
@@ -32,7 +32,7 @@ def scan():
                 problems.append({'file':rel,'pattern':pat})
                 break
     if problems:
-        fail('发现历史复杂路线或格式源码污染：'+json.dumps(problems[:80],ensure_ascii=False,indent=2))
+        fail('发现固定名称依赖、历史复杂路线或格式源码污染：'+json.dumps(problems[:80],ensure_ascii=False,indent=2))
 
 def run(cmd):
     p=subprocess.run(cmd, cwd=ROOT, shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=300)
@@ -49,5 +49,5 @@ def main():
         'py_compile': run('python3 -m py_compile scripts/relationship_view_adapter.py scripts/run_storage_view_e2e_tests.py scripts/validate_skill_package.py scripts/relationship_runtime.py'),
     }
     cleanup_cache()
-    print(json.dumps({'passed':True,'version':'v2.4','mode':'relationship_view','outputs':outputs},ensure_ascii=False,indent=2))
+    print(json.dumps({'passed':True,'version':'v2.5','mode':'brand_neutral_auto_install_relationship_view','outputs':outputs},ensure_ascii=False,indent=2))
 if __name__=='__main__': main()

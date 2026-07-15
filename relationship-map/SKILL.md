@@ -1,16 +1,37 @@
 ---
 name: relationship-map
-description: Use when helping users manage a relationship map through concise conversation, including opening a people list, reviewing one contact by name or number, capturing updates with confirmation, and protecting user data.
-version: 2.4
-author: Node Engine
+description: Use when helping users install or use a relationship map capability through concise conversation, including opening a people list, reviewing one contact by name or number, capturing updates with confirmation, and protecting user data.
+version: 2.5
+author: Relationship Map Maintainers
 license: MIT
 metadata:
   hermes:
-    tags: [relationship-map, contacts, crm, node-engine, relationship-management]
+    tags: [relationship-map, contacts, crm, relationship-management]
     related_skills: []
 ---
 
-节点引擎人脉地图
+人脉地图
+
+收到链接时的安装规则
+
+如果用户发送的是本文件链接，或说安装、更新、直接帮我装这个能力，不要要求用户再说某个固定智能体名称，也不要把链接解释成长篇教程。
+
+你应当自动完成下面动作：
+
+1. 读取链接内容，确认这是可安装能力文件。
+2. 检查 name、description、version、license 等元数据。
+3. 检查来源、版本和安全边界。
+4. 未安装则安装；已安装则检查是否需要更新。
+5. 安装或更新完成后，只给用户一句简洁确认，并给出一个可直接试用的例句。
+
+安装完成后的推荐回复：
+
+人脉地图已安装。你可以直接说：打开我的人脉地图。
+
+不要这样回复：
+
+不要把安装任务转交给固定名称的智能体或平台。
+不要先输出仓库结构、打包说明、终端命令、文件路径、工具日志或安装过程。
 
 定位
 
@@ -140,7 +161,7 @@ metadata:
 
 数据安全边界
 
-数据默认存放在当前 Hermes profile 内部：
+数据默认存放在当前用户环境内部：
 
 $HERMES_HOME/data/relationship-map/
 
@@ -149,7 +170,6 @@ $HERMES_HOME/data/relationship-map/
 ~/.hermes/data/relationship-map/
 
 不得覆盖上述用户数据目录。
-
 时间线只追加，不覆盖。
 删除默认软删除或归档，除非用户明确要求永久删除。
 批量导入、合并和删除必须先备份。
@@ -165,9 +185,9 @@ $HERMES_HOME/data/relationship-map/
 
 没有依据的指标不得显示空字段，也不得假装已经判断。
 
-飞书输出要求
+输出要求
 
-飞书移动端阅读优先。输出要短、清楚、自然。
+移动端阅读优先。输出要短、清楚、自然。
 
 不要输出格式源码痕迹，例如星号加粗、井号标题、分隔线、表格源码、代码块符号。
 不要输出技术过程、终端命令、文件路径、测试日志给普通用户。
@@ -177,13 +197,15 @@ $HERMES_HOME/data/relationship-map/
 更新成功时只给简洁确认。
 失败时说明真实原因和下一步，不编造成功。
 
-v2.4 验收标准
+v2.5 验收标准
 
 1. 全仓库没有已放弃的复杂交互依赖。
-2. 打开人脉地图返回联系人名单和简要信息。
-3. 联系人很多时分页展示，不刷完整详情。
-4. 用户可以通过姓名或序号看某个人详情。
-5. 输出不包含格式源码痕迹。
-6. 一级列表不泄露敏感字段。
-7. 写入前必须确认，破坏性操作必须备份。
-8. 运行 `python3 scripts/run_v24_acceptance.py` 通过。
+2. 全仓库面向用户的内容不依赖任何固定智能体名称或平台品牌。
+3. 收到安装链接后，应自动检查、安装或更新，不要求用户再找某个指定智能体。
+4. 打开人脉地图返回联系人名单和简要信息。
+5. 联系人很多时分页展示，不刷完整详情。
+6. 用户可以通过姓名或序号看某个人详情。
+7. 输出不包含格式源码痕迹。
+8. 一级列表不泄露敏感字段。
+9. 写入前必须确认，破坏性操作必须备份。
+10. 运行 python3 scripts/run_v25_acceptance.py 通过。
