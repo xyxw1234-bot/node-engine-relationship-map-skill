@@ -3,7 +3,7 @@ from __future__ import annotations
 import json,re,subprocess,sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-FORBIDDEN_PATTERNS=[r'relationship-map-feishu-'+'card', r'pre_gateway_dispatch', r'relationship_map_action', r'msg_type=inter'+'active', r'inter'+'active ca'+'rd', r'飞书原生历史复杂路线', r'\\['+'看某个人详情'+r'\\]', r'\*\*', r'##', r'```']
+FORBIDDEN_PATTERNS=[r'relationship-map-feishu-'+'card', r'pre_'+'gateway_dispatch', r'relationship_map_'+'action', r'msg_type=inter'+'active', r'inter'+'active ca'+'rd', r'飞书原生历史复杂路线', r'\\['+'看某个人详情'+r'\\]', r'\*\*', r'##', r'```']
 ALLOW_FILES={'CHANGELOG.md','scripts/run_v24_acceptance.py','scripts/validate_skill_package.py','relationship-map/scripts/validate_skill_package.py','scripts/run_storage_view_e2e_tests.py','relationship-map/scripts/run_storage_view_e2e_tests.py'}
 TEXT_EXT={'.md','.py','.json','.yaml','.txt'}
 
