@@ -1,15 +1,22 @@
-# 人脉地图安装入口
+# 节点引擎-人脉地图安装入口
 
-把下面这条链接直接发给你的节点引擎 / Hermes：
+https://raw.githubusercontent.com/xyxw1234-bot/节点引擎-人脉地图/main/SKILL.md
 
-https://raw.githubusercontent.com/xyxw1234-bot/node-engine-relationship-map-skill/main/relationship-map/SKILL.md
+## 链接单独发送时的系统行为
 
-节点引擎应自动识别这是一个 Skill 安装/更新链接。
+用户不需要附加任何话术。只要把上面这条链接单独发给节点引擎 / Hermes，系统应自动完成以下判断：
 
-如果需要手动命令，可执行：
+1. 识别这是 raw GitHub SKILL.md 链接。
+2. 读取 Skill frontmatter〔技能元数据〕并审查来源、名称、版本、权限边界和安全说明。
+3. 如果本地未安装，进入安装流程。
+4. 如果本地已安装，比较版本并检查更新。
+5. 如果安全策略要求确认，只发一条极简确认卡片或短句。
+6. 成功后只回复：人脉地图已安装。可试：打开我的人脉地图。
+
+## 手动兜底命令
+
+仅在自动识别能力未启用的老版本 Hermes 中使用：
 
 ```bash
-hermes skills install https://raw.githubusercontent.com/xyxw1234-bot/node-engine-relationship-map-skill/main/relationship-map/SKILL.md
+hermes skills install https://raw.githubusercontent.com/xyxw1234-bot/节点引擎-人脉地图/main/SKILL.md
 ```
-
-已经安装过的用户，可让节点引擎检查并更新该 Skill。

@@ -1,6 +1,17 @@
-# 节点引擎人脉地图 Skill
+# 节点引擎-人脉地图 Skill
 
-这是面向企业老板和高管的“人脉地图”能力包。它支持自然对话记录关系，也支持用户发出“打开人脉地图 / 打开人脉库”时，以卡片列表方式浏览联系人。
+这是面向企业老板和高管的“人脉地图”能力包。它把静态通讯录升级为可对话、可唤醒、可更新、可行动的人脉资产地图。
+
+## 唯一正式安装/更新链接
+
+https://raw.githubusercontent.com/xyxw1234-bot/节点引擎-人脉地图/main/SKILL.md
+
+把这条链接单独发给节点引擎 / Hermes 时，系统应自动识别为 Skill 安装或更新意图：
+
+- 未安装：自动进入安装审查与安装流程。
+- 已安装：自动检查当前版本并更新。
+- 需要安全确认时：只做极简确认，不输出长篇技术说明。
+- 安装完成后：只回一句简洁提示，避免在飞书里刷长 Markdown。
 
 ## 关键设计
 
@@ -8,17 +19,7 @@
 - 对话中提到某个人时，按正常上下文沟通、补全、确认、记录。
 - 明确说“打开人脉地图 / 打开人脉库”时，进入可视化列表：每人只显示姓名与两行摘要，详情通过按钮进入二级页。
 - 二级详情页在同一卡片框内切换，提供返回按钮回到列表。
-
-## 安装
-
-发布到 GitHub 后可安装：
-
-```bash
-hermes skills install https://raw.githubusercontent.com/<账号>/<仓库>/main/relationship-map/SKILL.md
-```
-
-当前为本地开发包，发布前需确认 GitHub 账号和仓库。
-
+- 有飞书流式卡片插件时优先流式卡片；没有时调用飞书原生 interactive card〔交互卡片〕兜底；再不支持时才用极简纯文本。
 
 ## Hermes 原生边界
 
@@ -26,26 +27,6 @@ hermes skills install https://raw.githubusercontent.com/<账号>/<仓库>/main/r
 
 默认数据位置：`$HERMES_HOME/data/relationship-map/`，没有 `HERMES_HOME` 时使用 `~/.hermes/data/relationship-map/`。
 
-
 ## 用户自定义扩展
 
 用户安装后可以按自己的业务扩展字段、模块、指标和场景。推荐把自定义内容放到 `$HERMES_HOME/data/relationship-map/extensions/`，避免官方 Skill 更新时覆盖用户改动。
-
-
-## 自适应关系维度
-
-系统内置投资人、政府/协会、学校客户、渠道、专家、供应链等角色预设，但不会锁死。AI 会根据用户输入自动建议相应维度，用户可以确认、改名、删除或设为自己的默认规则。
-
-
-## 飞书原生卡片配套层
-
-如果用户没有安装飞书流式卡片插件，人脉地图可使用飞书原生 interactive card 兜底展示：空状态、列表、详情、确认、示例、二级页面。复杂模块不平铺，统一进入二级页面。
-
-
-## 只发链接安装
-
-给用户转发时，优先只发这条 raw 链接：
-
-https://raw.githubusercontent.com/xyxw1234-bot/node-engine-relationship-map-skill/main/relationship-map/SKILL.md
-
-用户把这条链接发给自己的节点引擎 / Hermes 后，系统应把它识别为 Skill 安装或更新请求。若环境出于安全策略需要确认，节点引擎会先做极简确认。
