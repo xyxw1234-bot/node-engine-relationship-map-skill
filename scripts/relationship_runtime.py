@@ -201,3 +201,4 @@ def generate_contacts(n:int=500, seed:int=42) -> List[Contact]:
             c.private={"phone":f"1380000{i%10000:04d}", "wechat":f"wx_secret_{i}", "address":f"测试地址{i}", "id_number":f"ID{i:018d}", "finance_note":f"财务备注{i}", "private_judgment":f"私密评价{i}"}
         contacts.append(c)
     return contacts
+

@@ -11,3 +11,4 @@ https://raw.githubusercontent.com/xyxw1234-bot/relationship-map-skill/main/人�
 
 发布前验证：
 python3 scripts/run_v25_acceptance.py
+

@@ -46,3 +46,4 @@ def run(contacts:int, rounds:int):
 if __name__=='__main__':
     ap=argparse.ArgumentParser(); ap.add_argument('--contacts',type=int,default=5000); ap.add_argument('--rounds',type=int,default=10000)
     args=ap.parse_args(); print(json.dumps(run(args.contacts,args.rounds),ensure_ascii=False,indent=2))
+

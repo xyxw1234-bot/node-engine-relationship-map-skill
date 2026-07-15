@@ -18,3 +18,8 @@ venv/
 .DS_Store
 .idea/
 .vscode/
+
+# Release validation cache
+.coverage
+.pytest_cache/
+

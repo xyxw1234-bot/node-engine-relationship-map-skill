@@ -65,3 +65,4 @@ class RelationshipViewAdapter:
                 lines.append(f"{e.get('timestamp','')}｜{e.get('summary','')}")
         lines.append('如果要继续，可以说：更新这个人、生成联系话术、回到人脉列表。')
         return {'type':'relationship_map_detail_view','contact_id':contact_id,'return_state':return_state,'text':'\n'.join(lines)}
+

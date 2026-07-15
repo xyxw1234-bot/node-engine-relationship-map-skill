@@ -63,3 +63,4 @@ class RelationshipStore:
             self.append_timeline(cid,f'confirmed_{op}',f'确认执行 {op}')
         elif op in {'merge','bulk_import'} and cid: self.append_timeline(cid,f'confirmed_{op}',f'确认执行 {op}（模拟层不做破坏性自动合并）')
         self.conn.execute('UPDATE audit_log SET confirmed=1 WHERE id=?',(proposal['id'],)); self.conn.commit()
+

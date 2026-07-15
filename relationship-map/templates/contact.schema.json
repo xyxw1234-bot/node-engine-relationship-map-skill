@@ -19,3 +19,4 @@
     "private_notes": {"type": "array", "items": {"type": "string"}}
   }
 }
+

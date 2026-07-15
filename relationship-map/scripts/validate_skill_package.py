@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 root=Path(sys.argv[1] if len(sys.argv)>1 else '.').resolve()
 required=[
- 'SKILL.md','人脉地图/SKILL.md','README.md','INSTALL.md','CHANGELOG.md',
+ 'SKILL.md','人脉地图/SKILL.md','README.md','INSTALL.md',
  'references/list-ux.md','references/feishu-output-policy.md','references/v2.5-strict-lop.md',
  'relationship-map/SKILL.md','relationship-map/references/list-ux.md','relationship-map/references/feishu-output-policy.md','relationship-map/references/v2.5-strict-lop.md',
  'scripts/relationship_runtime.py','scripts/relationship_store.py','scripts/relationship_view_adapter.py','scripts/run_storage_view_e2e_tests.py','scripts/run_v25_acceptance.py',
@@ -24,8 +24,8 @@ removed_files=['plugins','节点'+'引擎-人脉地图','scripts/feishu_'+'card_
 for rel in removed_files:
     if (root/rel).exists():
         print('残留历史文件', rel); sys.exit(1)
-forbidden=['节点'+'引擎','Node '+'Engine','node-'+'engine','relationship-map-feishu-'+'card','pre_'+'gateway_dispatch','relationship_map_'+'action','msg_type=inter'+'active','inter'+'active ca'+'rd','but'+'ton','ca'+'rd','['+'看某个人详情'+']','纯'+'文本稳定版','纯'+'文字版','纯'+'文本版','plain_'+'text','text_'+'adapter','run_v'+'23_plain_'+'text','run_v'+'24_acceptance','v2.'+'3 是','v2.'+'0 到 v2.'+'2','找某某智能体'+'帮你安装','帮我安装这个 '+'skill','装到某个'+'平台']
-allow={'scripts/validate_skill_package.py','relationship-map/scripts/validate_skill_package.py','scripts/run_v25_acceptance.py','scripts/run_storage_view_e2e_tests.py','relationship-map/scripts/run_storage_view_e2e_tests.py','relationship-map/scripts/run_v25_acceptance.py','CHANGELOG.md'}
+forbidden=['节点'+'引擎','Node '+'Engine','node-'+'engine','relationship-map-feishu-'+'card','pre_'+'gateway_dispatch','relationship_map_'+'action','msg_type=inter'+'active','inter'+'active ca'+'rd','but'+'ton','ca'+'rd','['+'看某个人详情'+']','纯'+'文本稳定版','纯'+'文字版','纯'+'文本版','plain_'+'text','text_'+'adapter','run_v'+'23_plain_'+'text','run_v'+'24_acceptance','v2.'+'3 是','v2.'+'4','2.'+'4','v2.'+'0 到 v2.'+'2','找某某智能体'+'帮你安装','帮我安装这个 '+'skill','装到某个'+'平台']
+allow={'scripts/validate_skill_package.py','relationship-map/scripts/validate_skill_package.py','scripts/run_v25_acceptance.py','scripts/run_storage_view_e2e_tests.py','relationship-map/scripts/run_storage_view_e2e_tests.py','relationship-map/scripts/run_v25_acceptance.py'}
 for p in root.rglob('*'):
     if not p.is_file() or '.git' in p.parts or '__pycache__' in p.parts or p.suffix not in {'.md','.py','.json','.yaml','.txt'}:
         continue
@@ -40,3 +40,4 @@ for p in root.rglob('*'):
     if '.git' not in p.parts and ('__pycache__' in p.parts or p.suffix=='.pyc'):
         print('发现缓存污染', p); sys.exit(1)
 print('校验通过：v2.5 人脉管理 Skill，安装体验和历史污染扫描通过。')
+
